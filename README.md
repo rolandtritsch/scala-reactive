@@ -1,4 +1,1 @@
-scala-reactive
-==============
-
-Assignments for Reactive Programming on Coursera
+# Assignments for Reactive Programming on Scala
