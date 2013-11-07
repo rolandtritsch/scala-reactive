@@ -27,7 +27,6 @@ trait Heap {
 
 // Figure 3, page 7
 trait BinomialHeap extends Heap {
-
   type Rank = Int
   case class Node(x: A, r: Rank, c: List[Node])
   override type H = List[Node]
