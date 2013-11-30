@@ -1,3 +1,6 @@
+# emacs specific
+.*#
+
 # sbt specific
 target/
 lib_managed/

@@ -1,6 +1,8 @@
 package simulations
 
-class Simulator {
+import com.weiglewilczek.slf4s.Logging
+
+class Simulator extends Logging {
   type Action = () => Unit
 
   protected type Agenda = List[WorkItem]
@@ -10,26 +12,30 @@ class Simulator {
   protected[simulations] var agenda: Agenda = List()
   protected var currentTime = 0
 
-  protected def afterDelay(delay: Int)(action: => Unit) {
+  protected def afterDelay(delay: Int)(action: => Unit):Unit = {
     val item = WorkItem(currentTime + delay, () => action)
-    def insert(ag: Agenda): Agenda =
+    def insert(ag: Agenda): Agenda = {
       if (ag.isEmpty || item.time < ag.head.time) item :: ag
       else ag.head :: insert(ag.tail)
+    }
     agenda = insert(agenda)
   }
 
-  protected[simulations] def next {
+  protected[simulations] def next: Unit = {
     agenda match {
       case List() => {}
-      case WorkItem(time, action) :: rest =>
+      case WorkItem(time, action) :: rest => {
         agenda = rest
         currentTime = time
         action()
+      }
     }
   }
 
-  def run {
-    println("*** New propagation ***")
-    while (!agenda.isEmpty) { next }
+  def run: Unit = {
+    logger.debug("*** New propagation ***")
+    while(!agenda.isEmpty) {
+      next
+    }
   }
 }
